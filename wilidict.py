@@ -7,9 +7,7 @@ class WilyDict(dict):
     _next: int = 0
 
     def __missing__(self, key):
-        if key.startswith("__") and key.endswith("__"):
-            pass
-        else:
+        if not (key.startswith("__") and key.endswith("__")):
             self[key] = self._next
             self._next += 1
 
