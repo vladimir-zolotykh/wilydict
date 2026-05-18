@@ -4,11 +4,16 @@
 
 
 class WilyDict(dict):
-    _next: int = 0
+    def __init__(self, *args, **kwds):
+        super().__init__(*args, **kwds)
+        self._next = 0
 
     def __missing__(self, key):
-        if key[:2] != "__" or key[:-2] != "__":
-            self[key], self._next = self._next, self._next + 1
+        if key[:2] != "__" or key[-2:] != "__":
+            self[key] = self._next
+            self._next += 1
+            return self[key]
+        raise KeyError(key)
 
 
 class AutoMeta(type):
