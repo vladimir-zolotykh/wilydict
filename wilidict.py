@@ -7,9 +7,8 @@ class WilyDict(dict):
     _next: int = 0
 
     def __missing__(self, key):
-        if not (key.startswith("__") and key.endswith("__")):
-            self[key] = self._next
-            self._next += 1
+        if key[:2] != "__" or key[:-2] != "__":
+            self[key], self._next = self._next, self._next + 1
 
 
 class AutoMeta(type):
